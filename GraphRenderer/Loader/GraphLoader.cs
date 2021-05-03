@@ -86,6 +86,13 @@ namespace Graph.Loader
             return graph;
         }
 
+        /// <summary>
+        /// File structure:
+        /// 1 line - NumberOfVertices NumberOfEdges
+        /// next n lines:
+        /// VertexStart VertexEnd VertexStart VertexEnd...
+        /// </summary>
+        /// <param name="path">path to data text file</param>
         public void LoadGrpahFromFile(string path)
         {
             var lines = File.ReadAllLines(path);
