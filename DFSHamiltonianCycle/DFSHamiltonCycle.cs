@@ -20,8 +20,16 @@ namespace DFSHamiltonianCycle
         private bool isExistHamiltonCycle;
 
         private StringBuilder output = new StringBuilder();
-
         private List<List<int>> hamiltonCycles = new List<List<int>>();
+
+        public DFSHamiltonCycle(GraphModel graph, int startingVertex)
+        {
+            this.graph = graph;
+            startVertexId = startingVertex;
+
+            PrepareVariables();
+            DFSHamiltonCycleAlgorithm(startingVertex);
+        }
 
         public string GetHamiltonCycle()
         {
@@ -31,15 +39,6 @@ namespace DFSHamiltonianCycle
         public List<List<int>> GetAllHamiltonCycles()
         {
             return hamiltonCycles;
-        }
-
-        public DFSHamiltonCycle(GraphModel graph, int startingVertex)
-        {
-            this.graph = graph;
-            startVertexId = startingVertex;
-
-            PrepareVariables();
-            DFSHamiltonCycleAlgorithm(startingVertex);
         }
 
         private void DFSHamiltonCycleAlgorithm(int startingVertex)

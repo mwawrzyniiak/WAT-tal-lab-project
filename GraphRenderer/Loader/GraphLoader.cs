@@ -12,16 +12,19 @@ namespace Graph.Loader
         private long numberOfVertices = 0;
         private long numberOfEdge = 0;
         private List<long> edges;
+        private List<long> weights;
         private GraphModel graph;
 
         public long NumberOfVertices { get => numberOfVertices; }
         public long NumberOfEdge { get => numberOfEdge; }
         public List<long> Edges { get => edges; }
+        public List<long> Weights { get => weights; }
         public GraphModel Graph { get => graph; }
 
         private GraphLoader() 
         {
-            edges = new List<long>(); 
+            edges = new List<long>();
+            weights = new List<long>();
         }
 
         public static GraphLoader GetInstance()
@@ -130,6 +133,7 @@ namespace Graph.Loader
             for (int i = 0; i < numberOfEdge; i++)
             {
                 graph.UpdateNeighbors(edges[vertexStartNumber], edges[vertexEndNumber], (int) edges[vertexWeight]);
+                Weights.Add(edges[vertexWeight]);
                 vertexStartNumber += 3;
                 vertexEndNumber += 3;
                 vertexWeight += 3;

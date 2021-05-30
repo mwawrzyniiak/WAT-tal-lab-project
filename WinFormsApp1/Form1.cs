@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 
 using DFSHamiltonianCycle;
+using NNHamiltonianCycle;
 
 namespace WinFormsApp1
 {
@@ -25,8 +26,59 @@ namespace WinFormsApp1
         private void NNShow()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
-            var graphFromConsole = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH); 
+            var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
 
+            NNHamiltonCycle nn = new NNHamiltonCycle(graphFromFile);
+            label1.Text = nn.GetHamiltonCycle();
+
+            var hamiltonCycles = nn.GetAllHamiltonCycles();
+
+            var edges = loader.Edges;
+
+            int startIndex = 0;
+            int endIndex = 1;
+
+            for (int i = 0; i < loader.NumberOfEdge; i++)
+            {
+                graph.AddEdge(edges[startIndex].ToString(), edges[endIndex].ToString());
+                graph.AddEdge(edges[endIndex].ToString(), edges[startIndex].ToString());
+                
+                startIndex += 3;
+                endIndex += 3;
+            }
+
+            //TODO: ZROBIĆ WYPISYWANIE WAG
+            /*foreach (var edge in graph.Edges)
+            {
+                if(edge.LabelText == "")
+                    edge.LabelText = loader.Weights[int.Parse(edge.Source)].ToString();
+            }*/
+
+            if (hamiltonCycles.Count > 0)
+            {
+                foreach (var edge in graph.Edges)
+                {
+                    for (int i = 0; i < hamiltonCycles[0].Count - 1; i++)
+                    {
+                        if (edge.Source == hamiltonCycles[0][i].ToString() &&
+                            edge.Target == hamiltonCycles[0][i + 1].ToString() ||
+                            edge.Target == hamiltonCycles[0][i].ToString() &&
+                            edge.Source == hamiltonCycles[0][i + 1].ToString())
+                        {
+                            edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                        }
+                    }
+                }
+            }
+
+            viewer.Graph = graph;
+            viewer.Graph = graph;
+
+            this.SuspendLayout();
+            viewer.Dock = DockStyle.Fill;
+            this.Controls.Add(viewer);
+            this.ResumeLayout();
+            this.ShowDialog();
 
         }
         private void DFSShow()
@@ -47,8 +99,8 @@ namespace WinFormsApp1
             {
                 graph.AddEdge(edges[startIndex].ToString(), edges[endIndex].ToString());
                 graph.AddEdge(edges[endIndex].ToString(), edges[startIndex].ToString());
-                startIndex += 2;
-                endIndex += 2;
+                startIndex += 3;
+                endIndex += 3;
             }
 
             foreach (var edge in graph.Edges)
