@@ -19,7 +19,7 @@ namespace WinFormsApp1
 
             InitializeComponent();
             //GraphBuilder();
-            //DFSShow();
+            DFSShow();
             NNShow();
         }
 

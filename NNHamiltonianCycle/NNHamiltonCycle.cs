@@ -54,7 +54,7 @@ namespace NNHamiltonianCycle
 
                 for(int i = 0; i < graph.Graph[currentVertex].Weights.Count; i++)
                 {
-                    if (weightTemp > graph.Graph[currentVertex].Weights[i] && !stackSymulation.Contains((int) graph.Graph[currentVertex].Neighbors[i].Id))
+                    if (weightTemp >= graph.Graph[currentVertex].Weights[i] && !stackSymulation.Contains((int) graph.Graph[currentVertex].Neighbors[i].Id))
                     {
                         weightTemp = graph.Graph[currentVertex].Weights[i];
                     }
@@ -64,7 +64,10 @@ namespace NNHamiltonianCycle
                 foreach (var neighWeigh in graph.Graph[currentVertex].Weights)
                 {
                     if (neighWeigh == weightTemp)
-                        break;
+                    {
+                        if (!stackSymulation.Contains((int) graph.Graph[currentVertex].Neighbors[indexTemp].Id))
+                            break;
+                    }
 
                     indexTemp++;
                 }
