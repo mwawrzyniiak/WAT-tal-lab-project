@@ -16,16 +16,60 @@ namespace WinFormsApp1
             graph = new Microsoft.Msagl.Drawing.Graph("graph");
 
             InitializeComponent();
-            GraphBuilder();
+            //GraphBuilder();
+            DFSShow();
+        }
+
+        private void DFSShow()
+        {
+            var loader = Graph.Loader.GraphLoader.GetInstance();
+            var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
+
+            DFSHamiltonCycle dfs = new DFSHamiltonCycle(graphFromFile, 0);
+            label1.Text = dfs.GetHamiltonCycle();
+            var hamiltonCycles = dfs.GetAllHamiltonCycles();
+
+            var edges = loader.Edges;
+
+            int startIndex = 0;
+            int endIndex = 1;
+
+            for (int i = 0; i < loader.NumberOfEdge; i++)
+            {
+                graph.AddEdge(edges[startIndex].ToString(), edges[endIndex].ToString());
+                graph.AddEdge(edges[endIndex].ToString(), edges[startIndex].ToString());
+                startIndex += 2;
+                endIndex += 2;
+            }
+
+            foreach (var edge in graph.Edges)
+            {
+                for(int i = 0; i < hamiltonCycles[0].Count-1; i++)
+                {
+                    if(edge.Source == hamiltonCycles[0][i].ToString() && 
+                        edge.Target == hamiltonCycles[0][i+1].ToString() ||
+                        edge.Target == hamiltonCycles[0][i].ToString() &&
+                        edge.Source == hamiltonCycles[0][i + 1].ToString())
+                    {
+                        edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                    }
+                }
+            }
+
+            viewer.Graph = graph;
+            viewer.Graph = graph;
+
+            this.SuspendLayout();
+            viewer.Dock = DockStyle.Fill;
+            this.Controls.Add(viewer);
+            this.ResumeLayout();
+            this.ShowDialog();
         }
 
         private void GraphBuilder()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
             var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
-
-            DFSHamiltonCycle dFSHamiltonCycle = new DFSHamiltonCycle(graphFromFile, 0);
-            label1.Text = dFSHamiltonCycle.GetHamiltonCycle();
 
             var edges = loader.Edges;
 

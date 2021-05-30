@@ -8,22 +8,29 @@ namespace DFSHamiltonianCycle
     public class DFSHamiltonCycle
     {
         private List<bool> visited = new List<bool>();
-        private Stack stack = new Stack();
+        private List<int> stackSymulation= new List<int>();
 
         private GraphModel graph;
 
         private int startVertexId;
 
-        private long sptr;
+        private int sptr;
         private long edgesCount, vertexCount;
 
         private bool isExistHamiltonCycle;
 
         private StringBuilder output = new StringBuilder();
 
+        private List<List<int>> hamiltonCycles = new List<List<int>>();
+
         public string GetHamiltonCycle()
         {
             return output.ToString();
+        }
+
+        public List<List<int>> GetAllHamiltonCycles()
+        {
+            return hamiltonCycles;
         }
 
         public DFSHamiltonCycle(GraphModel graph, int startingVertex)
@@ -37,7 +44,11 @@ namespace DFSHamiltonianCycle
 
         private void DFSHamiltonCycleAlgorithm(int startingVertex)
         {
-            stack.Push(startingVertex);
+            if (stackSymulation.Count <= sptr)
+                stackSymulation.Add(startingVertex);
+            else
+                stackSymulation[sptr] = startingVertex;
+            
             sptr++;
 
             if (sptr < vertexCount)
@@ -67,18 +78,23 @@ namespace DFSHamiltonianCycle
                 if(isExistHamiltonCycle)
                 {
                     output.Append("CYKL HAMILTONA: ");
+                    
+                    var cycle = new List<int>();
+
+                    foreach (var vertex in stackSymulation)
+                    {
+                        output.Append(vertex + " -> ");
+                        cycle.Add(vertex);
+                    }
 
                     output.Append(startVertexId);
-
-                    foreach (var vertex in stack)
-                        output.Append(vertex);
+                    cycle.Add(startVertexId);
 
                     output.AppendLine("");
+                    hamiltonCycles.Add(cycle);
                 }
-
-                sptr--;
             }
-
+            sptr--;
         }
 
         private void PrepareVariables()
