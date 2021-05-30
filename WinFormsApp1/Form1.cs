@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 
 using DFSHamiltonianCycle;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -17,9 +18,17 @@ namespace WinFormsApp1
 
             InitializeComponent();
             //GraphBuilder();
-            DFSShow();
+            //DFSShow();
+            NNShow();
         }
 
+        private void NNShow()
+        {
+            var loader = Graph.Loader.GraphLoader.GetInstance();
+            var graphFromConsole = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH); 
+
+
+        }
         private void DFSShow()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();

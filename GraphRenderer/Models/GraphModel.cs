@@ -35,7 +35,7 @@ namespace Graph.Models
             graph = new List<VertexModel>();
         }
 
-        internal void UpdateNeighbors(long vertexStart, long vertexEnd)
+        internal void UpdateNeighbors(long vertexStart, long vertexEnd, long weight)
         {
             if (!IsVertexExistInGraph(vertexStart) || !IsVertexExistInGraph(vertexEnd) || vertexStart == vertexEnd)
                 throw new Exception("Can't create Graph. Unknown vertex number");
@@ -48,6 +48,9 @@ namespace Graph.Models
 
             graph[idStart].Neighbors.Add(VertexEnd);
             graph[idEnd].Neighbors.Add(VertexStart);
+
+            graph[idStart].Weights.Add(weight);
+            graph[idEnd].Weights.Add(weight);
         }
 
         private bool IsVertexExistInGraph(long vertexId)

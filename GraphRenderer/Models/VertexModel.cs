@@ -14,13 +14,13 @@ namespace Graph.Models
     {
         private long id;
         private List<VertexModel> neighbors;
-        private List<uint> weights;
+        private List<long> weights;
 
         public long Id { get => id; set => id = value; }
         public List<VertexModel> Neighbors { get => neighbors; set => neighbors = value; }
-        public List<uint> Weights { get => weights; set => weights = value; }
+        public List<long> Weights { get => weights; set => weights = value; }
 
-        public VertexModel(long id, List<VertexModel> neighbors, List<uint> weights)
+        public VertexModel(long id, List<VertexModel> neighbors, List<long> weights)
         {
             this.id = id;
             this.neighbors = neighbors;
@@ -31,7 +31,7 @@ namespace Graph.Models
         {
             this.id = id;
             this.neighbors = new List<VertexModel>();
-            this.weights = new List<uint>();
+            this.weights = new List<long>();
         }
     }
 }

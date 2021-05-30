@@ -64,8 +64,9 @@ namespace Graph.Loader
                 {
                     long vertexStart = 0;
                     long vertexEnd = 0;
+                    long weight = 0;
 
-                    Console.WriteLine("Enter edge definition: ");
+                    Console.WriteLine("Enter edge definition: [vertex1] [vertex2] [weight]");
                     var edgeDefinition = Console.ReadLine().Split(" ");
 
                     if (!long.TryParse(edgeDefinition[0], out vertexStart))
@@ -74,7 +75,10 @@ namespace Graph.Loader
                     if (!long.TryParse(edgeDefinition[1], out vertexEnd))
                         throw new Exception("Can't load end Vertex");
 
-                    graph.UpdateNeighbors(vertexStart, vertexEnd);
+                    if (!long.TryParse(edgeDefinition[2], out weight))
+                        throw new Exception("Can't load edge weight");
+
+                    graph.UpdateNeighbors(vertexStart, vertexEnd, weight);
 
                 }
             }
@@ -121,12 +125,14 @@ namespace Graph.Loader
             
             int vertexStartNumber = 0;
             int vertexEndNumber = 1;
+            int vertexWeight = 2;
 
             for (int i = 0; i < numberOfEdge; i++)
             {
-                graph.UpdateNeighbors(edges[vertexStartNumber], edges[vertexEndNumber]);
-                vertexStartNumber += 2;
-                vertexEndNumber += 2;
+                graph.UpdateNeighbors(edges[vertexStartNumber], edges[vertexEndNumber], (int) edges[vertexWeight]);
+                vertexStartNumber += 3;
+                vertexEndNumber += 3;
+                vertexWeight += 3;
             }
 
             graph.NumberOfEdge = numberOfEdge;
@@ -142,7 +148,10 @@ namespace Graph.Loader
                 var splitLine = lines[i].Split(" ");
 
                 foreach (var vertex in splitLine)
-                    vertexNumber.Add(long.Parse(vertex));
+                {
+                    if(vertex != "")
+                        vertexNumber.Add(long.Parse(vertex));
+                }
             }
 
             vertexNumber.RemoveAt(0);
