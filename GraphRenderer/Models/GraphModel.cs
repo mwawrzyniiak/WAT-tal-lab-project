@@ -14,6 +14,7 @@ namespace Graph.Models
         private List<VertexModel> graph;
 
         public List<VertexModel> Graph { get => graph; set => graph = value; }
+        public long NumberOfEdge { get; set; }
 
         public GraphModel(List<VertexModel> graph)
         {

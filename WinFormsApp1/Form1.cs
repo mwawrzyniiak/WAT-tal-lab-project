@@ -21,7 +21,7 @@ namespace WinFormsApp1
         private void GraphBuilder()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
-            loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
+            var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
             var edges = loader.Edges;
 
             int startIndex = 0;

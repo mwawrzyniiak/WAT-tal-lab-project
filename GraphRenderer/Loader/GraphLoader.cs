@@ -83,6 +83,7 @@ namespace Graph.Loader
                 throw new Exception(ex.Message);
             }
 
+            graph.NumberOfEdge = numberOfEdge;
             return graph;
         }
 
@@ -93,7 +94,7 @@ namespace Graph.Loader
         /// VertexStart VertexEnd VertexStart VertexEnd...
         /// </summary>
         /// <param name="path">path to data text file</param>
-        public void LoadGrpahFromFile(string path)
+        public GraphModel LoadGrpahFromFile(string path)
         {
             var lines = File.ReadAllLines(path);
             
@@ -128,7 +129,8 @@ namespace Graph.Loader
                 vertexEndNumber += 2;
             }
 
-            this.graph = graph;
+            graph.NumberOfEdge = numberOfEdge;
+            return graph;
         }
 
         public List<long> GetEdges(string[] lines)
@@ -148,6 +150,5 @@ namespace Graph.Loader
 
             return vertexNumber;
         }
-
     }
 }
