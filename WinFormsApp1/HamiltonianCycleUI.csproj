@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DFSHamiltonianCycle\DFSHamiltonianCycle.csproj" />
     <ProjectReference Include="..\GraphRenderer\Graph.csproj" />
   </ItemGroup>
 
