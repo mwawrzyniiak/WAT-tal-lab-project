@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Forms;
 
+using DFSHamiltonianCycle;
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -22,6 +23,10 @@ namespace WinFormsApp1
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
             var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
+
+            DFSHamiltonCycle dFSHamiltonCycle = new DFSHamiltonCycle(graphFromFile, 0);
+            label1.Text = dFSHamiltonCycle.GetHamiltonCycle();
+
             var edges = loader.Edges;
 
             int startIndex = 0;

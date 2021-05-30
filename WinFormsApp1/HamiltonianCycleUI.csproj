@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DFSHamiltonianCycle\DFSHamiltonianCycle.csproj" />
     <ProjectReference Include="..\GraphRenderer\Graph.csproj" />
+    <ProjectReference Include="..\NNHamiltonianCycle\NNHamiltonianCycle.csproj" />
   </ItemGroup>
 
 </Project>

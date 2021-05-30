@@ -1,6 +1,7 @@
 ﻿using Graph.Models;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DFSHamiltonianCycle
 {
@@ -18,6 +19,12 @@ namespace DFSHamiltonianCycle
 
         private bool isExistHamiltonCycle;
 
+        private StringBuilder output = new StringBuilder();
+
+        public string GetHamiltonCycle()
+        {
+            return output.ToString();
+        }
 
         public DFSHamiltonCycle(GraphModel graph, int startingVertex)
         {
@@ -59,17 +66,14 @@ namespace DFSHamiltonianCycle
 
                 if(isExistHamiltonCycle)
                 {
-                    System.Console.WriteLine("HAMILTON CYCLE: ");
+                    output.Append("CYKL HAMILTONA: ");
 
-                    foreach(var vertex in stack)
-                        System.Console.WriteLine(vertex + " ");
+                    output.Append(startVertexId);
 
-                    System.Console.WriteLine(startVertexId);
+                    foreach (var vertex in stack)
+                        output.Append(vertex);
 
-                }
-                else
-                {
-                    System.Console.WriteLine("NIE ISTNIEJE CYKL HAMILTONA W GRAFIE");
+                    output.AppendLine("");
                 }
 
                 sptr--;
