@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 using DFSHamiltonianCycle;
 using NNHamiltonianCycle;
+using HamiltonianCycleUI.Services;
 
 namespace WinFormsApp1
 {
@@ -11,11 +12,14 @@ namespace WinFormsApp1
     {
         private Microsoft.Msagl.GraphViewerGdi.GViewer viewer;
         private Microsoft.Msagl.Drawing.Graph graph;
+        private string DATA_PATH = Dictionaries.DATA_PATH_GENERATOR_GRAPH;
 
         public Form1()
         {
             viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
             graph = new Microsoft.Msagl.Drawing.Graph("graph");
+
+            //GraphGenerator.GenerateGraphToFile();
 
             InitializeComponent();
             //GraphBuilder();
@@ -26,7 +30,7 @@ namespace WinFormsApp1
         private void NNShow()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
-            var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
+            var graphFromFile = loader.LoadGrpahFromFile(DATA_PATH);
 
             NNHamiltonCycle nn = new NNHamiltonCycle(graphFromFile);
             label1.Text = nn.GetHamiltonCycle();
@@ -84,7 +88,7 @@ namespace WinFormsApp1
         private void DFSShow()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
-            var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
+            var graphFromFile = loader.LoadGrpahFromFile(DATA_PATH);
 
             DFSHamiltonCycle dfs = new DFSHamiltonCycle(graphFromFile, 0);
             label1.Text = dfs.GetHamiltonCycle();
@@ -130,7 +134,7 @@ namespace WinFormsApp1
         private void GraphBuilder()
         {
             var loader = Graph.Loader.GraphLoader.GetInstance();
-            var graphFromFile = loader.LoadGrpahFromFile(Dictionaries.DATA_PATH);
+            var graphFromFile = loader.LoadGrpahFromFile(DATA_PATH);
 
             var edges = loader.Edges;
 
