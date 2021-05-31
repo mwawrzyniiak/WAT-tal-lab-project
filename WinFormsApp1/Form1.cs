@@ -23,7 +23,7 @@ namespace WinFormsApp1
 
             InitializeComponent();
             //GraphBuilder();
-            DFSShow();
+            //DFSShow();
             NNShow();
         }
 
@@ -41,22 +41,17 @@ namespace WinFormsApp1
 
             int startIndex = 0;
             int endIndex = 1;
+            int weightIndex = 2;
 
             for (int i = 0; i < loader.NumberOfEdge; i++)
             {
-                graph.AddEdge(edges[startIndex].ToString(), edges[endIndex].ToString());
+                graph.AddEdge(edges[startIndex].ToString(), edges[endIndex].ToString()).LabelText = edges[weightIndex].ToString();
                 graph.AddEdge(edges[endIndex].ToString(), edges[startIndex].ToString());
                 
                 startIndex += 3;
                 endIndex += 3;
+                weightIndex += 3;
             }
-
-            //TODO: ZROBIĆ WYPISYWANIE WAG
-            /*foreach (var edge in graph.Edges)
-            {
-                if(edge.LabelText == "")
-                    edge.LabelText = loader.Weights[int.Parse(edge.Source)].ToString();
-            }*/
 
             if (hamiltonCycles.Count > 0)
             {
