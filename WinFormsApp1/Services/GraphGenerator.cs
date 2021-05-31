@@ -8,9 +8,12 @@ namespace HamiltonianCycleUI.Services
     {
         static int liczbaWierzcholkow = 5;
         static int liczbaKrawedzi = 10;
-
+        static int wymaganaLiczbaKrawedzi = 2;
+        static int maksymalnaLiczbaKrawedzi = 5;
         static List<string> WszystkieKrawedzie = new();
-        static List<int> WszystkieWierzcholki = new();
+        static List<int> iloscKrawedziwWierzcholku = new();
+        static int wagaMin = 5;
+        static int wagaMax = 15;
         public static void GenerateGraphToFile()
         {
             Random rnd = new();
@@ -18,23 +21,28 @@ namespace HamiltonianCycleUI.Services
 
             for (int i = 0; i < liczbaWierzcholkow; i++)
             {
-                WszystkieWierzcholki.Add(0);
+                iloscKrawedziwWierzcholku.Add(0);
             }
 
+            var losoweKrawedzie = WszystkieKrawedzie.OrderBy(x => rnd.Next()).Take(liczbaKrawedzi).ToList();
 
-            var asdc = WszystkieKrawedzie.OrderBy(x => rnd.Next()).Take(liczbaKrawedzi).ToList();
-            while (!Check(asdc, WszystkieWierzcholki))
+            while (czyKrawedzieSpelniajaKryteria(losoweKrawedzie, iloscKrawedziwWierzcholku, wymaganaLiczbaKrawedzi, maksymalnaLiczbaKrawedzi))
             {
-                asdc = WszystkieKrawedzie.OrderBy(x => rnd.Next()).Take(liczbaKrawedzi).ToList();
+                losoweKrawedzie = WszystkieKrawedzie.OrderBy(x => rnd.Next()).Take(liczbaKrawedzi).ToList();
             }
-            var wynik = asdc.OrderBy(x => x).ToList();
+            var wynikLosowania = losoweKrawedzie.OrderBy(x => x).ToList();
 
-            for (int i = 0; i < wynik.Count; i++)
+            for (int i = 0; i < wynikLosowania.Count; i++)
             {
-                wynik[i] = wynik[i] + " " + rnd.Next(1, 20);
+                wynikLosowania[i] = wynikLosowania[i] + " " + rnd.Next(wagaMin, wagaMax);
             }
 
+            GenerateDataToTxt(wynikLosowania);
 
+        }
+
+        private static void GenerateDataToTxt(List<string> wynik)
+        {
             StreamWriter sw = new StreamWriter(@"..\..\..\ExampleData\graphGenerator.txt");
             sw.WriteLine(liczbaWierzcholkow + " " + liczbaKrawedzi);
 
@@ -43,7 +51,6 @@ namespace HamiltonianCycleUI.Services
                 sw.WriteLine(item);
             }
             sw.Flush();
-
         }
 
         private static void wszystkieMozliweKrawedzie(List<string> list, int liczbaWierzcholkow)
@@ -51,28 +58,39 @@ namespace HamiltonianCycleUI.Services
             for (int i = 0; i < liczbaWierzcholkow; i++)
             {
                 for (int j = 1; j < liczbaWierzcholkow; j++)
+                {
                     if (i < j)
                     {
                         list.Add(i.ToString() + " " + j.ToString());
                     }
+                }
             }
         }
 
-        public static bool Check(List<string> all, List<int> licznik)
+        public static bool czyKrawedzieSpelniajaKryteria(List<string> all, List<int> licznik, int wymaganaLiczbaKrawedzi, int maksymalnaLiczbaKrawedzi)
         {
+            for (int i = 0; i < licznik.Count; i++)
+            {
+                licznik[i] = 0;
+            }
             foreach (var item in all)
             {
-                var item1 = (int)item.First() - 48;
-                var item2 = (int)item.Last() - 48;
+                var item1temp = item.Substring(0, item.IndexOf(" "));
+                int item1 = int.Parse(item1temp);
+                var koniec = item.Length - (item.IndexOf(" ") + 1);
+                var item2temp = item.Substring(item.IndexOf(" ") + 1, koniec);
+                var item2 = int.Parse(item2temp);
                 licznik[item1] += 1;
                 licznik[item2] += 1;
             }
-            if (licznik.Any(x => x >= 2))
+            foreach (var item in licznik)
             {
-                return true;
+                if (item < wymaganaLiczbaKrawedzi || item > maksymalnaLiczbaKrawedzi)
+                {
+                    return true;
+                }
             }
             return false;
-
         }
     }
 }
