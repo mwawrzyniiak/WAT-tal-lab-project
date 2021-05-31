@@ -87,10 +87,10 @@ namespace HamiltonianCycleUI.Services
             {
                 if (item < wymaganaLiczbaKrawedzi || item > maksymalnaLiczbaKrawedzi)
                 {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
     }
 }
