@@ -1,4 +1,5 @@
 ﻿using Graph.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,9 +24,11 @@ namespace NNHamiltonianCycle
             this.graph = graph;
 
             PrepareVariables();
-
-            foreach(var vertex in graph.Graph)
+            var startTime = DateTime.Now;
+            foreach (var vertex in graph.Graph)
                 NNHamiltonCycleAlgorithm((int) vertex.Id);
+            var elapsedTime = DateTime.Now - startTime;
+            Console.WriteLine("Czas wykonania algorytmu DFS(dokładność do 100ns) " + elapsedTime.Ticks);
         }
 
         public string GetHamiltonCycle()

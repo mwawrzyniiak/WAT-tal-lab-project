@@ -1,4 +1,5 @@
 ﻿using Graph.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -29,9 +30,10 @@ namespace DFSHamiltonianCycle
             startVertexId = startingVertex;
 
             PrepareVariables();
-            DFSHamiltonCycleAlgorithm(startingVertex);
-            //
-            int ijsdaf = 5;
+            var startTime = DateTime.Now;
+            DFSHamiltonCycleAlgorithm(startingVertex);            
+            var elapsedTime = DateTime.Now - startTime;
+            Console.WriteLine("Czas wykonania algorytmu DFS(dokładność do 100ns) " + elapsedTime.Ticks);
         }
 
         public string GetHamiltonCycle()
