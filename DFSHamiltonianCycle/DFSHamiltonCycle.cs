@@ -16,6 +16,7 @@ namespace DFSHamiltonianCycle
 
         private int sptr;
         private long edgesCount, vertexCount;
+        private int counter = 1;
 
         private bool isExistHamiltonCycle;
 
@@ -29,6 +30,8 @@ namespace DFSHamiltonianCycle
 
             PrepareVariables();
             DFSHamiltonCycleAlgorithm(startingVertex);
+            //
+            int ijsdaf = 5;
         }
 
         public string GetHamiltonCycle()
@@ -44,29 +47,40 @@ namespace DFSHamiltonianCycle
         private void DFSHamiltonCycleAlgorithm(int startingVertex)
         {
             if (stackSymulation.Count <= sptr)
+            {
+                ++counter;
                 stackSymulation.Add(startingVertex);
+            }
             else
-                stackSymulation[sptr] = startingVertex;
-            
+            {
+                ++counter;
+                stackSymulation[sptr] = startingVertex; ++counter;
+            }
+
             sptr++;
 
             if (sptr < vertexCount)
             {
                 visited[startingVertex] = true;
-                foreach(var vertex in graph.Graph[startingVertex].Neighbors) 
+                ++counter;
+                foreach (var vertex in graph.Graph[startingVertex].Neighbors) 
                 {
                     if (!visited[(int)vertex.Id])
+                    {
                         DFSHamiltonCycleAlgorithm((int)vertex.Id);
+                        ++counter;
+                    }
                 }
-
+                ++counter;
                 visited[startingVertex] = false;
             }
             else
             {
                 isExistHamiltonCycle = false;
-
-                foreach(var vertex in graph.Graph[startingVertex].Neighbors)
+   
+                foreach (var vertex in graph.Graph[startingVertex].Neighbors)
                 {
+                    ++counter;
                     if (vertex.Id == startVertexId)
                     {
                         isExistHamiltonCycle = true;
@@ -76,6 +90,7 @@ namespace DFSHamiltonianCycle
 
                 if(isExistHamiltonCycle)
                 {
+                    ++counter;
                     output.Append("CYKL HAMILTONA: ");
                     
                     var cycle = new List<int>();
@@ -93,6 +108,7 @@ namespace DFSHamiltonianCycle
                     hamiltonCycles.Add(cycle);
                 }
             }
+
             sptr--;
         }
 

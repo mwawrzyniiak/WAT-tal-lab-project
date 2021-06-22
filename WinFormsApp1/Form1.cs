@@ -12,7 +12,7 @@ namespace WinFormsApp1
     {
         private Microsoft.Msagl.GraphViewerGdi.GViewer viewer;
         private Microsoft.Msagl.Drawing.Graph graph;
-        private string DATA_PATH = Dictionaries.DATA_PATH_GENERATOR_GRAPH;
+        private string DATA_PATH = Dictionaries.DATA_PATH;
 
         public Form1()
         {
@@ -23,8 +23,8 @@ namespace WinFormsApp1
 
             InitializeComponent();
             //GraphBuilder();
-            //DFSShow();
-            NNShow();
+            DFSShow();
+            //NNShow();
         }
 
         private void NNShow()
@@ -52,7 +52,7 @@ namespace WinFormsApp1
                 endIndex += 3;
                 weightIndex += 3;
             }
-
+           
             if (hamiltonCycles.Count > 0)
             {
                 foreach (var edge in graph.Edges)
@@ -70,6 +70,8 @@ namespace WinFormsApp1
                 }
             }
 
+            graph.FindNode(hamiltonCycles[0][0].ToString()).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Green;
+
             viewer.Graph = graph;
             viewer.Graph = graph;
 
@@ -85,7 +87,7 @@ namespace WinFormsApp1
             var loader = Graph.Loader.GraphLoader.GetInstance();
             var graphFromFile = loader.LoadGrpahFromFile(DATA_PATH);
 
-            DFSHamiltonCycle dfs = new DFSHamiltonCycle(graphFromFile, 0);
+            DFSHamiltonCycle dfs = new DFSHamiltonCycle(graphFromFile, 1);
             label1.Text = dfs.GetHamiltonCycle();
             var hamiltonCycles = dfs.GetAllHamiltonCycles();
 
@@ -115,6 +117,8 @@ namespace WinFormsApp1
                     }
                 }
             }
+
+            graph.FindNode(hamiltonCycles[0][0].ToString()).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Green;
 
             viewer.Graph = graph;
             viewer.Graph = graph;
